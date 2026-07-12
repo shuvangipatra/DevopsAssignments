@@ -1,0 +1,49 @@
+﻿pipeline {
+    agent any
+    environment {
+        AWS_REGION = "ap-south-1"
+        ECR_REPO = "<your-account-id>.dkr.ecr.ap-south-1.amazonaws.com/eks-lab-project"
+        IMAGE_TAG = "latest"
+    }
+    stages {
+        stage('Clone Repo') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t : .'
+            }
+        }
+        stage('Login to ECR') {
+            steps {
+                sh 'aws ecr get-login-password --region  | docker login --username AWS --password-stdin '
+            }
+        }
+        stage('Push Image to ECR') {
+            steps {
+                sh 'docker push :'
+            }
+        }
+        stage('Update Manifest') {
+            steps {
+                sh '''
+                sed -i "s|image:.*|image: :|" deployment.yaml
+                git config --global user.email "you@example.com"
+                git config --global user.name "Your Name"
+                git add deployment.yaml
+                git commit -m "Update image to :"
+                git push origin main
+                '''
+            }
+        }
+        stage('Deploy to EKS') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+                sh 'kubectl apply -f service.yaml'
+                sh 'kubectl apply -f ingress.yaml'
+            }
+        }
+    }
+}
