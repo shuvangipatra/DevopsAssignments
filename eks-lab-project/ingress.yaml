@@ -1,16 +1,18 @@
 ﻿apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress
+  name: eks-lab-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
 spec:
-  ingressClassName: alb
   rules:
-  - http:
+  - host: soumitripathy.site
+    http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: nginx
+            name: eks-lab-service
             port:
               number: 80
