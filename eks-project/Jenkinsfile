@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         AWS_REGION = "ap-south-1"
-        ECR_REPO = "085876626280.dkr.ecr.ap-south-1.amazonaws.com/devops-app"
+        ECR_REPO = "085876626280.dkr.ecr.ap-south-1.amazonaws.com/eks-lab-project"
     }
     stages {
         stage('Clone Repo') {
@@ -21,8 +21,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t devops-app eks-project
-                docker tag devops-app:latest $ECR_REPO:$BUILD_NUMBER
+                docker build -t $ECR_REPO:$BUILD_NUMBER eks-project
                 '''
             }
         }
@@ -51,7 +50,7 @@ pipeline {
                 kubectl apply -f deployment.yaml
                 kubectl apply -f service.yaml
                 kubectl apply -f ingress.yaml
-                kubectl rollout status deployment/devops-app
+                kubectl rollout status deployment/eks-lab-project
                 '''
             }
         }
