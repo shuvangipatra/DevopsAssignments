@@ -14,6 +14,11 @@ app.get('/goal', (req, res) => {
   res.send(`Hello from Shuvangi’s Summer Docker Course Project! Your goal: ${goal}`);
 });
 
+// Health check endpoint for Kubernetes probes
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://0.0.0.0:${port}`);
 });
