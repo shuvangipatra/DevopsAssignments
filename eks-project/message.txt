@@ -1,0 +1,3 @@
+Welcome to Shuvangi’s EKS Lab Project!
+This is a sample message file served by the Node.js app.
+You can view it at /message endpoint.
