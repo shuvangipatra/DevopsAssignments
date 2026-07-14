@@ -1,43 +1,19 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 const app = express();
 const port = 8080;
 
-// Serve static CSS
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Homepage with styled text
+// Serve the static HTML file
 app.get('/', (req, res) => {
-  res.send(`
-    <html>
-      <head>
-        <link rel="stylesheet" type="text/css" href="/style.css">
-      </head>
-      <body>
-        <h1 class="title">Hello from Shuvangi’s EKS Lab Project!</h1>
-      </body>
-    </html>
-  `);
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'UP', service: 'eks-lab-project' });
-});
-
-// Endpoint to serve text file
-app.get('/message', (req, res) => {
-  const filePath = path.join(__dirname, 'message.txt');
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      res.status(500).send('Error reading message file');
-    } else {
-      res.send(`<pre>${data}</pre>`);
-    }
-  });
+// Optional API endpoint if you want to handle goals server-side
+app.get('/goal', (req, res) => {
+  const goal = req.query.goal || "Learn Docker!";
+  res.send(`Hello from Shuvangi’s Summer Docker Course Project! Your goal: ${goal}`);
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running at http://0.0.0.0:${port}`);
 });

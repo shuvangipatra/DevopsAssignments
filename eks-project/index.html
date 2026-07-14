@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Course Goals for Summer Break</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    h1 { color: #4B0082; }
+    .goal-box { border: 1px solid #ccc; padding: 20px; margin: 20px auto; width: 300px; }
+    button { background-color: #4B0082; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+    button:hover { background-color: #6A0DAD; }
+  </style>
+</head>
+<body>
+  <h1>My Course Goals for summer break</h1>
+  <h2>Learn Docker!</h2>
+
+  <div class="goal-box">
+    <label for="goal">Course Goal</label><br><br>
+    <input type="text" id="goal" placeholder="Enter your goal"><br><br>
+    <button onclick="setGoal()">Set Course Goal</button>
+  </div>
+
+  <p id="output"></p>
+
+  <script>
+    function setGoal() {
+      const goal = document.getElementById('goal').value;
+      document.getElementById('output').innerText = "Hello from Shuvangi’s Summer Docker Course Project! Your goal: " + goal;
+    }
+  </script>
+</body>
+</html>
